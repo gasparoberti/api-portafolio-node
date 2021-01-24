@@ -104,10 +104,23 @@ var controller = {
             if (!projectDeleted) return res.status(404).send({
                 message: "No existe ningun proyecto."
             });
-            
+
+            //no funciona
+            // if (req.params.image) {
+            //     var filePath = req.params.image.path;
+            //     //borro la imagen antes de eliminar el elemento (despues no puedo porque el return corta la función)
+            //     fs.unlink(filePath, (err) => {
+            //         // return res.status(200).send({
+            //         //     message: "Imagen borrada con éxito."
+            //         // });
+            //     });
+            //     console.log(filePath);
+            // }
+
             return res.status(200).send({
                 project: projectDeleted
             });
+
         });
     },
     uploadImage: function(req, res) {
