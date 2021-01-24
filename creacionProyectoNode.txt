@@ -1,0 +1,66 @@
+npm init    crea el package.json donde estarán las configuraciones de proyecto, dependencias, etc
+
+en la consola se deberán cnfigurar algunos parámetros como nombre package versión, descripción, entry point, etc
+
+se deben instalar las siguientes dependencias:
+
+npm install express --save                  framework para trabajar con HTTP. --save guarda esta dependencia en el proyecto actual.
+
+npm install body-parser --save              convierte las peticiones del backend a un objeto json que pueda ser usado por js.
+
+npm install connect-multiparty --save       permite subir archivos a mi backend y poder guardarlos en una carpeta en el servidor.
+
+npm install mongoose --save                 orm para poder conectarse y poder trabajar con mongodb
+
+npm install nodemon --save-dev              para que el servidor de node se refresque automáticamente y no lo tenga que hacer uno manualmente. -dev le indica que solo va a instalarse en local. cuando se suba a un servidor la dependencia no se va a tomar en cuenta.
+
+por último creamos el archivo index.js y el script start en el package. "start": "nodemon index.js" esto hará que cada vez que yo ponga nom start nodemon cargará el archivo index.js
+
+
+creamos la bd con mongodb compass create database y debo completar el nombre de la bd y el nombre de una colección si o si. si no agrego una colección me da error y no me deja crearla.
+
+para agregar un documento clickeo add data e insert document. en la ventana que se abre agrego el documento que quiero crear.
+
+[{
+  "name": "Blog",
+  "description": "Blog Personal",
+  "category": "Informatica",
+  "langs": [".NET Core", "SQLServer"],
+  "year": 2020  
+}
+]
+
+obs: tiene que tener los corchetes por mas de que inserte un solo objeto y las comillas deben ser comillas dobles. porque si esto no se cumple no te dejará insertar PERO TAMPOCO TE DICE CUALES SON LOS ERRORES.
+
+para conectar el proyecto nodejs con la bd mongodb:
+
+var mongoose = require('mongoose');
+
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://localhost:27017/postafolio')   //puerto por defecto de mongodb
+        .then(() => {
+           console.log("Conexión a mongodb establecida"); 
+        })
+        .catch(err => console.log(err));
+
+para probar esto debo hacer npm start
+
+si yo hago algun cambio y guardo el servidor se actualiza automáticamente.
+
+en app se configuran las distintas rutas que se utilizan con express y body-parser
+
+para crear los modelos o entidades que va a tener el backend (la que creamos en mongo: projects): 
+un modelo representa un documento dentro de la base de datos. se crea el modelo de la siguiente manera:
+
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+
+var ProjectSchema = Schema({
+    name: String,
+    description: String,
+    category: String,
+    langs: [String],
+    year: Number
+});
+
+module.exports = mongoose.model('Project', ProjectSchema);
